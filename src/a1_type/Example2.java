@@ -3,8 +3,8 @@ package a1_type;
 public class Example2 {
     public static void main(String[] args) {
         // 정수형 변수 생성 연습
-        byte a = 127;
-        short b = 128;
+        byte a = 1;
+        short b = 123;
         int c = 1000;
         long d = 100000; // 뒤에 소문자l 또는 대문자F 명시적으로 붙이기도 한다.
         // 실수형
