@@ -32,7 +32,5 @@ public class TypeChange3 {
         double value10 = data3 + data4; // double + double
         System.out.println(value10); // 8.0
 
-        System.out.println();
-
     }
 }
