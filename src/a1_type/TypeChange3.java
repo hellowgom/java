@@ -30,7 +30,7 @@ public class TypeChange3 {
         // byte와 short 타입으로는 연산을 수행하지 않음. int로 업캐스팅해서 연산.
         System.out.println(value9); // 8
         double value10 = data3 + data4; // double + double
-        System.out.println(value10); // 8.0
+        System.out.println(value10); // 8.0 
 
     }
 }
