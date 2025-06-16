@@ -40,7 +40,7 @@ public class LogicalOperator {
         // 보통 토글장치를 구현할 때 사용함
         boolean capsButton = false;
         capsButton = !capsButton;
-//        if(capsButton== true) {
+//        if(capsButton == true) {
 //            capsButton = false;
 //        }else {
 //            capsButon= true;
