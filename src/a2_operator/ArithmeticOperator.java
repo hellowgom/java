@@ -10,7 +10,7 @@ public class ArithmeticOperator {
         System.out.println(8%5);  // 3  나머지를 의미
         System.out.println();     // 띄워쓰기 용도
 
-        // 증감연산자 (++:1씩 증가, --: 1씩 감소)
+        // 증감연산자 (++: 1씩 증가, --: 1씩 감소)
         int value1 = 3;
         System.out.println(value1); // 3
        // value1 = value1 + 1;
