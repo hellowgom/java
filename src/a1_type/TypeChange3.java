@@ -8,7 +8,7 @@ public class TypeChange3 {
         // int 포함 그 아래에 있는 byte, short 사이의 연산은 모두 int
 
         float value3 = 3.0F + 5.0F; // 8.0   float + float
-        double value4 = 8.0 / 5.0; // 1.5    double / double
+        double value4 = 8.0 / 5.0; // 1.6    double / double
 
         byte data1 = 3;
         byte data2 = 5;
