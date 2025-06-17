@@ -25,14 +25,14 @@ public class RelationOperator {
         System.out.println();
 
         // 중요!! 참조자료형의 참조비교
-        String str1 = new String("Hello");
-        String str2 = new String("Hello");
+        String str1 = new String("Hello");  // 힙에 Hellow 저장
+        String str2 = new String("Hello");  // 힙에 Hellow 저장
         System.out.println(str1 == str2); // false
         System.out.println(str1 == str1); // true
         System.out.println(str1.equals(str2)); // true
         System.out.println(str1.equalsIgnoreCase(str2)); // true
 
-        String str10 = new String("hello");  // 힙에 Hellow 저장
+        String str10 = new String("hello");  // 힙에 hellow 저장
         String str11 = new String("Hello");  // 힙에 Hellow 저장
         System.out.println(str10 == str11); // false
         System.out.println(str10 == str10); // true
