@@ -8,12 +8,12 @@ public class BitwiseOperator {                  // BitwiseOperator는 class이�
         int data = 13;
         System.out.println(Integer.toBinaryString(data)); // 1101  Integer는 class이다. toBinaryString()는 메서드이다.
         System.out.println(Integer.toOctalString(data)); // 15  Integer는 class이다.  toOctalString()는 메서드이다.
-        System.out.println(Integer.toHexString(data)); // d  Integer는 class이다.  toHexString()는 메서드이다.
+        System.out.println(Integer.toHexString(data)); // Ch4_Example  Integer는 class이다.  toHexString()는 메서드이다.
         System.out.println();
 
         System.out.println(Integer.parseInt("1101", 2)); // 13
         System.out.println(Integer.parseInt("15", 8)); // 13
-        System.out.println(Integer.parseInt("d", 16)); // 13
+        System.out.println(Integer.parseInt("Ch4_Example", 16)); // 13
         System.out.println();
 
         System.out.println(13); // 13
