@@ -46,5 +46,12 @@ public class ForLoop {
         for (int i=0, j=0; i<10 && j<10; i++, j++) {
             System.out.println(i + "" + j);
         }
+        // for문 밖에서 interator를 참조해야만 한다면 아래처럼..
+        int i;
+        for (i=0; i<10; i++) {
+            // 실행코드
+        }
+        System.out.println("iterator의 최종값은? ");
+        System.out.println(i);
     }
 }
