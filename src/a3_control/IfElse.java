@@ -44,5 +44,31 @@ public class IfElse {
         // 참조자료형이 생성되는 Heap메모리의 경우, 필요없는 메모리는 삭제하자!
         // 남아있으면 GC(Garbage Collector)에 의해 자동으로 삭제되지만,
         // 코드상에서 명시적으로 삭제시키는 것이 좋은 습관임.
+
+        // if문의 중복
+        int value1 = 5;
+        int value2 = 3;
+        if (value1 > 4) {
+            if (value2 < 2) {
+                System.out.println("실행1");
+            }else {
+                System.out.println("실행2");
+            }
+        }else {
+            System.out.println("실행3");
+        }
+
+        // if문의 code drilling 이슈
+        if(true) {
+            if (true) {
+                if (true) {
+                    if (true) {
+                        if (true) {
+                            // 가독성을 떨어뜨리므로 좋지 않은 코딩방법
+                        }
+                    }
+                }
+            }
+        }
     }
 }
