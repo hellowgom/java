@@ -32,7 +32,7 @@ public class ForLoopPattern {
         int index = 0;    // 반복문에서 외부변수(index)를 사용.
         for (int i=0; i<name.length(); i++) {
             System.out.println(name.charAt(i));
-            if (name.charAt(i) == 'v') {
+            if (name.charAt(i) == 'v') {       // charAt(i)은 메서드 이다. 함수 == function == method ==> 독립적인 일
                 index = i;
                 break;
             }
