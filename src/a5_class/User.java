@@ -17,8 +17,8 @@ public class User {
     }
     // 메서드
     // 패스워드를 변경하는 메서드
-    public String setPassword(String newPasssaword) {
-        this.password = newPasssaword;
+    public String setPassword(String newPassword) {
+        this.password = newPassword;
         return this.password;
     }
 }

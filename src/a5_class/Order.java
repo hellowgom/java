@@ -4,19 +4,19 @@ import java.util.Date;
 
 public class Order {
     // 필드
-    long oderId; // 주문번호 : 숫자형가능(long이 주로 사용됨)
-    String userEmail; // 주문자
-    String productId; // 주문제품
+    long orderId; // 주문번호 : 숫자형가능(long이 주로 사용됨)
+    User user; // 주문자
+    Product product; // 주문제품
     Date orderDate; // 주문일
     double totalAmount; // 주문수량
 
     // 생성자
     public Order() {
     }
-    public Order(long oderId, String userEmail, String productId, Date orderDate, double totalAmount) {
-        this.oderId = oderId;
-        this.userEmail = userEmail;
-        this.productId = productId;
+    public Order(long orderId, User user, Product product, Date orderDate, double totalAmount) {
+        this.orderId = orderId;
+        this.user = user;
+        this.product = product;
         this.orderDate = orderDate;
         this.totalAmount = totalAmount;
     }

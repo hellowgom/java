@@ -3,16 +3,16 @@ package a5_class;
 public class Product {
     // 필드
     String productId; // 제품아이디 (고유값)
-    String productname; // 제품명
+    String productName; // 제품명
     double price; // 가격 (계산편의성때문에 double을 사용)
     int stock; // 재고수량
 
     // 생성자
     public Product() {
     }
-    public Product(String productId, String productname, double price, int stock) {
+    public Product(String productId, String productName, double price, int stock) {
         this.productId = productId;
-        this.productname = productname;
+        this.productName = productName;
         this.price = price;
         this.stock = stock;
     }
