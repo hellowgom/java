@@ -37,11 +37,18 @@ public class Student {
     // 3) 반환형 : 생성자는 반환형없음, 메서드는 반드시 명시(void, int, String등)
 
     // #3. 메서드
-    public double sumScore() {
+
+    @Override // 부모의 메서드(toString)를 자식이 수정했다는 의미!!. 자식만 가지고있는 메서드에는 안붙음.
+    public String toString() {
+        // return super.toString(); // super는 부모 클래스인 Object 클래스
+        return this.name; // 반환하는 값은 이 클래스에 맞춰 작성해야함!
+    }
+
+    public double sumScore() { // @Override는 자식만 가지고있는 메서드(sumScore)에는 안붙음.
         double sum = this.scoreMath + this.scoreHistory + this.scoreMusic;
         return sum;
     }
-    public double averageScore() {
+    public double averageScore() { // @Override는 자식만 가지고있는 메서드(averageScore)에는 안붙음.
         double sum = this.sumScore(); // 흔히 메서드에는 this를 생략함
         double average = sum / 3;
         return average;
