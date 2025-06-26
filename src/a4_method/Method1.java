@@ -12,7 +12,7 @@ public class Method1 {
 
         int bigNumber = 2134131;
         int baseNumber = 3;
-        // 베이스 숫자의 배소인지 여부를 알려주는 함수
+        // 베이스 숫자의 배수인지 여부를 알려주는 함수
         checkMultipeOf(bigNumber, baseNumber );
     }
 
@@ -42,7 +42,7 @@ public class Method1 {
 
     }
 
-    // 베이스 숫자의 배소인지 여부를 알려주는 함수
+    // 베이스 숫자의 배수인지 여부를 알려주는 함수
     public static void checkMultipeOf(int number, int base) {
         boolean isMultiple = (number % base == 0) ? true : false;
         System.out.println(base + "의 배수 : " + isMultiple);
