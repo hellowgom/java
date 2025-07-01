@@ -16,10 +16,10 @@ public class ArrayList1 {
         // 추가와 삭제가 안됨
         String[] array = new String[] {"A","B","C","D"};
         System.out.println(array.length); // 4
-        array[2] = null;
+        array[2] = null;        
         System.out.println(array.length); // 4
-        System.out.println(Arrays.toString(array)); // [A, B, null, D]
-        // 배열은 요소를 삭제해도 메모리 공간은 남고 사이즈도 그대로임
+        System.out.println(Arrays.toString(array)); //[A, B, null, D]
+        // 배열은 요소를 삭제해도 메모리 공안은 남고 사이즈도 그대로임
 
         // 리스트
         // 1) 생성자가 List가 아니라 그 자식클래스인 ArrayList (사실은 구현체)
@@ -46,6 +46,5 @@ public class ArrayList1 {
         System.out.println(stringList); // [A, B, C, D]
         stringList.add("E");
         System.out.println(stringList); // [A, B, C, D, E]
-
     }
 }
