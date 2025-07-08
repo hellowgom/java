@@ -1,3 +1,5 @@
+package w1_monster_project;
+
 public class Monster {
     private String name;
     private int hp;
@@ -62,4 +64,3 @@ public class Monster {
         System.out.println(" 이름: " + name + " 체력: " + hp + " 공격력: " + attack + " 방어력: " + defense);
     }
 }
-
