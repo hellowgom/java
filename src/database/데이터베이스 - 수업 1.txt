@@ -1,0 +1,136 @@
+MariaDB [(none)]> use mysql;
+Database changed
+MariaDB[mysql]>
+
+*주소록
+DB명 : address_book
+사용자명 : address_book
+비밀번호 : 1234
+
+1. DB생성
+create database address_book;
+
+2. 사용자 계정 생성 및 권한부여
+grant all privileges on address_book.*to address_book@localhost identified by '1234'
+
+3. 적용
+flush privileges;
+
+4. 생성한 DB에 접속
+mysql -u address_book -p
+
+5. 주소록 DB 선택
+use address_book;
+
+------------------------------------------------------------------------------------------------------------------------
+
+표 : table
+행 : row, record, tuple,
+열 : column, field, attribute
+
+테이블 목록
+show tables;
+
+테이블 생성 : address_tbl
+
+no 숫자 null허용안함
+name 문자(10) null허용안함
+phone 문자(13) null허용안함
+
+create table address_tbl(
+no int not null,
+name varchar(10) not null,
+phone varchar(10) not null,
+gubun varchar(10)
+);
+
+desc address_tbl;
+describe address_tbl;
+
+select * from address_tbl;
+
+insert into address_tbl (no, name, phone, gubun)
+values (1, '홍길동', '010-1111-1111', '학교');
+
+insert into address_tbl (phone, no, name, gubun)
+values ('010-2222-2222', 2, '이성순', '직장');
+
+insert into address_tbl values (3, '장전용', '010-3333-3333', '사회');
+
+insert into address_tbl (no, name, phone)
+values (4, '김춘삼', '010-4444-4444');
+
+insert into address_tbl values (5, '정원겸', '010-5555-5555');
+
+insert into address_tbl (no, name, phone, gubun)
+values (6, '이정ㅋ', '010-6666-6666', '직장');
+
+update  address_tbl  set  name='이정재' where no=6;
+
+delete from address_tbl where no = 6;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
