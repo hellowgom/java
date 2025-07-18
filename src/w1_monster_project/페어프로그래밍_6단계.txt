@@ -1,0 +1,67 @@
+6단계 목표: interface로 공통 회복 스킬 구현하기
+
+1. Healable.java 인터페이스 파일 만들기
+
+모든 '회복 가능' 몬스터들이 따라야 할 '회복(heal)'이라는 행동 규칙을 정의합니다. 이 인터페이스를 구현하는 몬스터는 반드시 heal() 메서드를 가져야 합니다.
+
+Java
+public interface Healable {
+    void heal();
+}
+
+2. 트롤(Troll)과 헬하운드(Hellhound) 클래스에 회복 능력 부여하기
+
+서로 다른 계열의 두 몬스터에게 Healable 인터페이스를 구현(implements)하여 동일한 회복 스킬을 부여합니다.
+
+A. Troll.java 클래스 생성 (NormalMonster 계열)
+
+Java
+// NormalMonster를 상속받고, Healable 능력을 가짐
+public class Troll extends NormalMonster implements Healable {
+
+    public Troll(String name, int hp, int attack, int defense) {
+        super(name, hp, attack, defense);
+    }
+
+    // Healable 인터페이스의 규칙에 따라 heal() 메서드를 구현
+    @Override
+    public void heal() {
+        // 최대 체력의 10%를 회복함
+    }
+}
+
+B. Hellhound.java 클래스 생성 (FireMonster 계열)
+
+Java
+// FireMonster를 상속받고, Healable 능력도 가짐
+public class Hellhound extends FireMonster implements Healable {
+
+    public Hellhound(String name, int hp, int attack, int defense, int fireSkillDamage) {
+        super(name, hp, attack, defense, fireSkillDamage);
+    }
+
+    // Healable 인터페이스의 규칙에 따라 heal() 메서드를 구현
+    @Override
+    public void heal() {
+        // 최대 체력의 20%를 회복함
+    }
+}
+
+3. GameManager.java 수정하기
+
+GameManager에서 새로 만든 클래스들을 사용하고, 전투 중에 회복 스킬이 발동되도록 로직을 추가합니다.
+
+A. 몬스터 목록 수정
+기존의 '트롤'과 '헬하운드'를 새로 만든 클래스의 객체로 교체합니다.
+
+B. 전투 로직에 회복 스킬 발동 코드 추가
+while문 안에서 공격이 끝난 후, 공격자가 Healable 타입인지 확인하고 확률적으로 heal() 메서드를 호출합니다.
+
+Java
+// GameManager.java의 while 루프 안, 공격을 마친 후
+
+// ✨ 추가된 회복 스킬 발동 로직 ✨
+// 공격 턴을 마친 attacker가 Healable 타입인지 확인
+if (attacker instanceof Healable) {
+    // 25% 확률로 회복 스킬 사용
+}
