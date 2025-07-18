@@ -1,4 +1,4 @@
-* 사원관리 모델링02
+* 사원관리 모델링02-01
 C:＼>mysql -u hr -p
 Eenter password: 1234
 

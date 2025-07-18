@@ -1,0 +1,17 @@
+보너스 정보가 있는 사원만 표시 (보너스 정보가 없는 사원 제외)
+
+select * from employees;
+
+select * from salaries;
+
+SELECT e.name, s.bonus
+FROM Salaries s 
+RIGHT OUTER JOIN Employees e ON s.employee_id = e.employee_id;
+
+SELECT e.name, s.bonus
+FROM Salaries s 
+LEFT OUTER JOIN Employees e ON s.employee_id = e.employee_id;
+
+SELECT e.name, s.bonus
+FROM Employees e 
+RIGHT OUTER JOIN Salaries s ON e.employee_id = s.employee_id;
