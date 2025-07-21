@@ -31,7 +31,7 @@ public class Array1 {
         // 화면출력
         System.out.println(array1[0] + " " + array1[1] + " " + array1[2]);
         System.out.println(Arrays.toString(array1));
-        // 배열의 출력 메서드(tpString)을 사용하면 쉽게 전체 데이터를 확인 가능
+        // 배열의 출력 메서드(toString)을 사용하면 쉽게 전체 데이터를 확인 가능
 
         // 배열의 초기값 정리
         // 배열은 힙메모리에 생성되므로 기본자료형의 경우, 각자의 초기값을 갖는다
