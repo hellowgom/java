@@ -1,0 +1,42 @@
+사원관리 모델링
+
+C:＼>mysql -u hr -p
+Eenter password: 1234
+
+MariaDB [(none)]> use hr;
+
+MariaDB [hr]> show tables;
+
+MariaDB [hr]> select * from departments;
+
+MariaDB [hr]> select * from positions;
+
+MariaDB [hr]> select * from employees;
+
+MariaDB [hr]> select * from salaries;
+
+MariaDB [hr]> select * from attendance;
+
+MariaDB [hr]> select * from employment_histroy;
+
+
+===========================================
+<테이블을 미리 안만들고 테이블간 합치기>
+
+select * from departments;
+
+
+SELECT d.department_name, t.평균급여    
+FROM (
+         SELECT e.department_id, AVG(s.base_salary) AS 평균급여
+         FROM Employees e
+         JOIN Salaries s ON e.employee_id = s.employee_id
+         GROUP by e.employee_id
+) AS t
+INNER JOIN Departments d ON d.department_id = t.department_id;
+
+
+SELECT e.department_id, AVG(s.base_salary) AS 평균급여
+         FROM Employees e
+         JOIN Salaries s ON e.employee_id = s.employee_id
+         GROUP by e.employee_id;

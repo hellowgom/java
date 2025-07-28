@@ -1,0 +1,343 @@
+* 사원관리 모델링02-01
+C:＼>mysql -u hr -p
+Eenter password: 1234
+
+MariaDB [(none)]> use hr;
+
+MariaDB [hr]> show tables;
+
+MariaDB [hr]> select * from departments;
+
+MariaDB [hr]> select * from positions;
+
+MariaDB [hr]> select * from employees;
+
+MariaDB [hr]> select * from salaries;
+
+MariaDB [hr]> select * from attendance;
+
+MariaDB [hr]> select * from employment_histroy;
+
+===========================================
+
+- 사원의 이름, 부서명, 직급명 조회
+
+select * from employees;
+
+select * from departments;
+
+select * from positions;
+
+
+select name, department_name, position_name
+from employees e inner join departments d on e.department_id = d.department_id
+	           inner join  positions p on e.position_id = p.position_id;
+
+select e.name, d.department_name, p.position_name
+from employees e inner join departments d on e.department_id = d.department_id
+	           inner join  positions p on e.position_id = p.position_id;	
+
+select e.name, d.department_name, p.position_name, d.department_id
+from employees e inner join departments d on e.department_id = d.department_id
+	           inner join  positions p on e.position_id = p.position_id;
+
+select name, department_name, position_name, e.department_id
+from employees e inner join departments d on e. department_id = d.department_id
+	           inner join  positions p on e.position_id = p.position_id;
+
+select e.name, d.department_name, p.position_name, e.department_id
+from employees e inner join departments d on e. department_id = d.department_id
+	           inner join  positions p on e.position_id = p.position_id;
+
+select name, department_name, position_name, d.department_id
+from employees e inner join departments d on e. department_id = d.department_id
+	           inner join  positions p on e.position_id = p.position_id;
+
+select e.name, d.department_name, p.position_name, d.department_id
+from employees e inner join departments d on e. department_id = d.department_id
+	           inner join  positions p on e.position_id = p.position_id;
+
+select name, 
+        (
+           select department_name 
+           from departments d 
+           where d.department_id = e.department_id
+        ) as department_name, 
+       ( select position_name
+         from positions p
+         where p.position_id = e.position_id
+       ) as position_name
+from employees e;
+
+
+- 사원 이름, 기본급, 보너스 조회
+
+select * from employees;
+
+select * from salaries;
+
+SELECT e.name, s.base_salary , s.bonus 
+FROM employees e
+INNER JOIN salaries s ON e.employee_id = s.employee_id;
+
+
+- 가장 높은 기본급을 받는 사원의 이름과 급여
+
+select * from employees;
+
+select * from salaries;
+
+SELECT e.name, s.base_salary
+FROM employees e INNER JOIN salaries s ON e.employee_id = s.employee_id;
+
+SELECT e.name, s.base_salary
+FROM employees e INNER JOIN salaries s ON e.employee_id = s.employee_id
+WHERE base_salary = 6000000.00;
+
+SELECT e.name, s.base_salary
+FROM employees e INNER JOIN salaries s ON e.employee_id = s.employee_id
+WHERE s.base_salary = (
+       SELECT MAX(base_salary) FROM salaries
+ );
+
+
+- 평균보다 높은 보너스를 받는 사원
+
+select * from employees;
+
+select * from salaries;
+
+SELECT e.name, s.bonus
+FROM employees e INNER JOIN salaries s ON e.employee_id = s.employee_id;
+
+SELECT AVG(bonus) FROM salaries;     --  312000.000000
+
+SELECT e.name, s.bonus
+FROM employees e INNER JOIN salaries s ON e.employee_id = s.employee_id
+WHERE s.bonus > 312000.000000;                        
+
+SELECT e.name, s.bonus
+FROM employees e INNER JOIN salaries s ON e.employee_id = s.employee_id
+WHERE s.bonus >(
+        SELECT AVG(bonus) FROM salaries
+    );
+
+==============================================================
+
+- 집계 합수
+
+count(*)         -- null 값 포함 갯수
+count(name)   -- null 값 제외 갯수
+
+sum()
+avg()
+max()
+min()
+
+예>
+name
+-------
+   1
+   2
+   3
+   4
+   5
+   6
+  null
+  null
+  null
+
+count(*)          :  9 (null 값 포함 갯수)
+
+name
+-------
+   1
+   2
+   3
+   4
+   5
+   6
+  null
+  null
+  null
+
+count(name)    :  6 (null 값 제외 갯수)
+
+name
+-------
+   1
+   2
+   3
+   4
+   5
+   6
+
+==============================================================
+
+- 부서별 사원 수
+
+select * from departments;
+
+select * from employees;
+
+SELECT d.department_name AS 부서명, COUNT(e.employee_id) AS 사원수
+FROM departments d INNER JOIN employees e ON d.department_id = e.department_id;
+
+SELECT d.department_name AS 부서명
+FROM departments d INNER JOIN employees e ON d.department_id = e.department_id
+GROUP BY d.department_name;
+
+SELECT d.department_name AS 부서명, COUNT(e.employee_id) AS 사원수
+FROM departments d INNER JOIN employees e ON d.department_id = e.department_id
+GROUP BY d.department_name;
+
+SELECT d.department_name, COUNT(*)
+FROM departments d INNER JOIN employees e ON d.department_id = e.department_id
+GROUP BY d.department_name;
+
+SELECT d.department_name, COUNT(*)
+FROM employees e INNER JOIN departments d ON e.department_id = d.department_id
+GROUP BY d.department_name;
+
+==============================================================
+
+- 직급별 평균 급여
+
+select * from employees;
+
+select * from salaries;
+
+select * from departments;
+
+SELECT p.position_name, AVG(s.base_salary) AS 평균급여
+FROM employees e INNER JOIN positions p ON e.position_id = p.position_id
+                            INNER JOIN salaries s ON e.employee_id = s.employee_id
+GROUP BY p.position_name;
+
+
+SELECT p.position_name 직급이름, AVG(s.base_salary) AS 평균급여
+FROM positions p INNER JOIN employees e ON p.position_id = e.position_id
+                          INNER JOIN salaries s ON s.employee_id = e.employee_id
+GROUP BY p.position_name;
+
+
+SELECT p.position_name 직급이름, AVG(s.base_salary) AS 평균급여
+FROM positions p INNER JOIN employees e ON p.position_id = e.position_id
+                          INNER JOIN salaries s ON s.employee_id = e.employee_id
+GROUP BY p.position_name
+ORDER BY 직급이름 DESC;
+
+==============================================================
+
+
+- 보너스 금액에 따라 등급 표시
+이름, 보너스, 보너스 등급
+
+* 보너스 등급
+보너스가 500000이상이면 'A등급'
+보너스가 200000이상이면 'B등급'
+기타 'C등급'
+
+select * from employees;
+
+select * from salaries;
+
+SELECT e.name 이름, s.bonus 보너스,
+  CASE
+    WHEN s.bonus >= 500000 THEN 'A등급'
+    WHEN s.bonus >= 200000 THEN 'B등급'
+    ELSE 'C등급'
+  END AS 보너스등급
+FROM employees e INNER JOIN salaries s ON e.employee_id = s.employee_id;
+
+SELECT e.name 이름, s.bonus 보너스,               -- 순서 잘못됨!! (순서 중요!!)
+  CASE
+    WHEN s.bonus >= 200000 THEN 'B등급'
+    WHEN s.bonus >= 500000 THEN 'A등급'
+    ELSE 'C등급'
+  END AS 보너스등급
+FROM employees e INNER JOIN salaries s ON e.employee_id = s.employee_id;
+
+
+SELECT e.name 이름, s.bonus B,               -- order by 에서만 별칭을 쓰자!!
+  CASE
+    WHEN s.B >= 500000 THEN 'A등급'
+    WHEN s.B >= 200000 THEN 'B등급'
+    ELSE 'C등급'
+  END AS 보너스등급
+FROM employees e INNER JOIN salaries s ON e.employee_id = s.employee_id;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+                  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

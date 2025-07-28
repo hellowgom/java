@@ -1,0 +1,408 @@
+* 사원관리 모델링02-02
+C:＼>mysql -u hr -p
+Eenter password: 1234
+
+MariaDB [(none)]> use hr;
+
+MariaDB [hr]> show tables;
+
+MariaDB [hr]> select * from departments;
+
+MariaDB [hr]> select * from positions;
+
+MariaDB [hr]> select * from employees;
+
+MariaDB [hr]> select * from salaries;
+
+MariaDB [hr]> select * from attendance;
+
+MariaDB [hr]> select * from employment_histroy;
+
+
+===========================================
+
+
+select * from employees;
+
+select * from employment_histroy;
+
+- 사원별 입사 후 근속일수
+
+SELECT name, DATEDIFF(CURDATE(), hire_date) AS 근속일수
+FROM Employees;
+
+- 2024년 7월에 출근한 사원 목록
+
+select * from employees;
+
+select * from attendance;
+
+SELECT e.name, a.date, a.status
+FROM employees e INNER JOIN attendance a ON e.employee_id = a.employee_id
+WHERE a.date BETWEEN '2024-07-01' AND '2024-07-31';
+
+SELECT e.name, a.date, a.status
+FROM employees e INNER JOIN attendance a ON e.employee_id = a.employee_id
+WHERE a.date BETWEEN '2024-07-01' AND '2024-07-31'
+AND a.status = '정상출근';
+
+SELECT e.name, a.date, a.status
+FROM employees e INNER JOIN attendance a ON e.employee_id = a.employee_id
+WHERE a.date > '2024-06-30' AND a.date < '2024-08-01';
+
+SELECT e.name, a.date, a.status
+FROM employees e INNER JOIN attendance a ON e.employee_id = a.employee_id
+WHERE a.date > '2024-06-30' AND a.date < '2024-08-01'
+AND a.status = '정상출근';
+
+- 과장 이상 직급을 가진 사원의 이름, 직급, 부서
+
+select * from employees;
+
+select * from positions;
+
+select * from departments;
+
+SELECT e.name, p.position_name, d.department_name
+FROM employees e INNER JOIN positions p on e.position_id = p.position_id
+                            INNER JOIN departments d on d.department_id = e.department_id;
+
+
+SELECT e.name, p.position_name, d.department_name
+FROM employees e INNER JOIN positions p on e.position_id = p.position_id
+                            INNER JOIN departments d on d.department_id = e.department_id
+WHERE p.level >= 3;
+
+SELECT e.name, p.position_name, d.department_name
+FROM employees e INNER JOIN positions p on e.position_id = p.position_id
+                            INNER JOIN departments d on e.department_id = d.department_id
+WHERE p.level > 2;
+
+- 최고 기본급을 받는 사원
+
+select * from employees;
+
+select * from salaries;
+
+SELECT e.name, s.base_salary
+FROM employees e INNER JOIN salaries s ON e.employee_id = s.employee_id
+WHERE s.base_salary = (SELECT MAX(base_salary) FROM salaries
+);
+
+SELECT e.name 이름, s.base_salary 최고기본급
+FROM employees e INNER JOIN salaries s ON e.employee_id = s.employee_id
+WHERE s.base_salary = (SELECT MAX(base_salary) FROM salaries
+);
+
+- 가장 늦게 입사한 사원
+
+select * from employees;
+
+select * from employment_histroy;
+
+SELECT name, hire_date
+FROM Employees
+WHERE hire_date = (
+       SELECT MAX(hire_date) FROM Employees
+);
+
+- 평균 급여보다 높은 급여를 받는 사원
+
+select * from employees;
+
+select * from salaries;
+
+SELECT AVG(base_salary) FROM salaries; 
+
+SELECT e.name, s.base_salary
+FROM employees e INNER JOIN salaries s ON e.employee_id = s.employee_id
+WHERE s.base_salary >(
+        SELECT AVG(base_salary) FROM salaries
+    );
+
+
+- 급여가 가장 높은 상위 3명의 사원
+
+select * from employees;
+
+select * from salaries;
+
+SELECT e.name, s.base_salary   -- 학원 컴퓨터 버전 낮아서 실행 안됨!!
+FROM employees e INNER JOIN salaries s ON e.employee_id = s.employee_id
+WHERE s.base_salary IN(
+       SELECT base_salary FROM Salaries
+       ORDER BY base_salary DESC
+       LIMIT 3
+);
+
+- 각 사원의 근태 중 지각 횟수
+
+select * from employees;
+
+select * from attendance;
+
+
+select e.name 이름,
+     (
+       select count(*) 
+      from attendance a 
+      where a.employee_id = e.employee_id and a.status ='지각'
+     ) as 지각횟수
+from employees e;
+
+
+SELECT e.name AS 이름 COUNT(*) AS 지각횟수 
+FROM employees e INNER JOIN attendance a ON e.employee_id = a.employee_id
+WHERE a.status = '지각'
+GROUP BY e.employee_id, e.name;
+
+SELECT 
+    e.name AS 이름,
+    COUNT(CASE WHEN a.status = '지각' THEN 1 END) AS 지각횟수
+FROM 
+    employees e
+LEFT JOIN 
+    attendance a ON e.employee_id = a.employee_id
+GROUP BY 
+    e.employee_id, e.name;
+
+- 부서별 평균 급여 조회
+
+select * from employees;
+
+select * from departments;
+
+select * from salaries;
+
+SELECT d.department_name, t.평균급여    
+FROM (
+         SELECT e.department_id, AVG(s.base_salary) AS 평균급여
+         FROM Employees e
+         JOIN Salaries s ON e.employee_id = s.employee_id
+         GROUP by e.employee_id
+) AS t
+JOIN Departments d ON d.department_id = t.department_id;
+
+
+SELECT d.department_name, t.평균급여    
+FROM (
+         SELECT e.department_id, AVG(s.base_salary) AS 평균급여
+         FROM Employees e
+         JOIN Salaries s ON e.employee_id = s.employee_id
+         GROUP by e.employee_id
+) t
+JOIN Departments d ON d.department_id = t.department_id;
+
+
+===========================================
+
+ 
+괄호가 가장 우선순위 높다,
+ 
+좁은게 우선순의 높다.
+
+가까운게 우선순위 높다, 
+ 
+
+===========================================
+
+- 급여 내역이 존재하는 사원 조회
+
+select * from employees;
+
+select * from salaries;
+
+SELECT name
+FROM Employees e
+WHERE EXISTS (
+         SELECT 1 FROM Salaries s
+         WHERE s.employee_id = e.employee_id
+);
+
+
+SELECT name
+FROM Employees e
+WHERE NOT EXISTS (
+         SELECT 1 FROM Attendance a
+         WHERE a.employee_id = e.employee_id
+);
+
+
+- 2024년 7월 10일 지각한 사원 제외하고 전체 사원 목록 보기
+
+select * from employees;
+
+select * from attendance;
+
+SELECT a.employee_id
+FROM Attendance a
+WHERE a.date = '2024-07-10' AND a.status = '지각';
+
+SELECT name
+FROM Employees e
+WHERE employee_id NOT IN (2, 7);
+
+SELECT name
+FROM Employees
+WHERE employee_id NOT IN (
+    SELECT employee_id
+    FROM Attendance
+    WHERE date = '2024-07-10' AND status = '지각'
+); 
+
+SELECT e.name
+FROM Employees e
+WHERE e.employee_id NOT IN (
+    SELECT a.employee_id
+    FROM Attendance a
+    WHERE a.date = '2024-07-10' AND a.status = '지각'
+);
+
+
+- '개발팀' 소속 사원의 급여 출력
+
+select * from employees;
+
+select * from departments;
+
+select * from salaries;
+
+SELECT e.name, s.base_salary
+FROM Employees e
+JOIN Salaries s ON e.employee_id = s.employee_id
+WHERE e.department_id IN (
+     SELECT department_id FROM Departments
+     WHERE department_name = '개발팀'
+);
+    
+
+SELECT e.name, s.base_salary
+FROM Employees e
+JOIN Salaries s ON e.employee_id = s.employee_id
+WHERE e.department_id = (
+     SELECT department_id FROM Departments
+     WHERE department_name = '개발팀'
+);
+
+
+- 평균 급여보다 낮은 급여의 사원 보너스를 0으로 변경
+
+select * from employees;
+
+select * from salaries;
+
+UPDATE Salaries
+SET bonus = 0
+WHERE base_salary < (
+        SELECT AVG(base_salary) FROM Salaries
+);
+
+select * from salaries;
+
+
+===========================================
+
+1. 사원의 이름, 부서명, 직급명 출력
+
+2. 급여 정보와 함께 사원 이름 출력
+
+3. 근태 기록과 사원 정보 출력 (2024년 7월 10일 기준)
+
+4. 모든 사원과 급여정보 출력 (급여 없는 사원도 포함)
+
+select * from employees;
+
+select * from salaries;
+
+SELECT e.name, s.base_salary, s.bonus
+FROM Employees e LEFT OUTER JOIN Salaries s On e.employee_id = s.employee_id;
+
+5. 모든 부서와 부서별 소속 사원 출력 (사원이 없는 부서도 포함)
+
+select * from employees;
+
+select * from departments;
+
+SELECT d.department_name, e.name
+FROM Departments d LEFT OUTER JOIN Employees e On d.department_id = e.department_id;
+
+6. 급여 정보가 있는 사원만 표시 (급여 정보가 없는 사원 제외)
+
+select * from employees;
+
+select * from salaries;
+
+SELECT e.name, s.base_salary
+FROM Salaries s 
+RIGHT OUTER JOIN Employees e ON s.employee_id = e.employee_id;
+
+
+
+===========================================
+
+-같은 테이블
+
+select * from employees;
+
+SELECT e1.name AS 사원1, e2.name AS 동료
+FROM Employees e1 inner join Employees e2 ON e1.department_id = e2.department_id
+WHERE e1.employee_id != e2.employee_id;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
